@@ -1,0 +1,31 @@
+{
+  "name": "diablo",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "colors": "^1.4.0",
+    "got": "^11.8.2",
+    "jsdom": "^16.5.2",
+    "prompt": "^1.1.0",
+    "ts-node": "^9.1.1"
+  },
+  "devDependencies": {
+    "@types/got": "^9.6.11",
+    "@types/jsdom": "^16.2.10",
+    "@types/node": "^14.0.14",
+    "@types/prompt": "^1.1.0",
+    "@typescript-eslint/eslint-plugin": "2.31.0",
+    "@typescript-eslint/parser": "2.31.0",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "prettier": "^2.0.5",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.9.5"
+  }
+}
