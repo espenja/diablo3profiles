@@ -1,4 +1,4 @@
-import fs from "fs"
+import fs from "fs-extra"
 import path from "path"
 import prompt from "prompt"
 import colors from "colors"
@@ -121,6 +121,23 @@ type Guide = {
 }
 
 const start = async () => {
+
+	const guidesPath = path.resolve(__dirname, "guides.json")
+	const guidesExist = await fs.pathExists(guidesPath)
+
+	if(!guidesExist) {
+
+		const example = [{
+			url: "https://maxroll.gg/guides/firebird-mirror-image-wizard-guide",
+			name: "Firebird Mirror Image"
+		}]
+
+		console.log("Please create a guides.json file in the same directory as the program")
+		console.log("Example file:")
+		console.log(colors.green(JSON.stringify(example, undefined, 2)))
+		process.exit(0)
+	}
+
 	const guides = JSON.parse(fs.readFileSync(path.resolve(__dirname, "guides.json"), { encoding: "utf-8" })) as Guide[]
 
 	const localProfiles: LocalProfile[] = []
