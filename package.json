@@ -2,7 +2,7 @@
   "name": "diablo",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "author": "",
+  "author": "https://github.com/espenja",
   "license": "MIT",
   "private": true,
   "scripts": {
