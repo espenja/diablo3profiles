@@ -16,6 +16,7 @@ type Kanai = {
 
 export type LocalProfile = {
 	name: string
+	class: string
 	items: Array<Item>
 	skills: Array<Skill>
 	kanai: Kanai
@@ -94,6 +95,7 @@ export const buildLocalSets = async (profiles: Array<Profile>, namePrefix: strin
 	for (const profile of profiles) {
 		const localProfile: LocalProfile = {
 			name: `${namePrefix} ${profile.name}`,
+			class: profile.class,
 			items: await getItems(profile.items),
 			kanai: await getKanai(profile),
 			skills: await getSkills(profile.class, profile.skills),

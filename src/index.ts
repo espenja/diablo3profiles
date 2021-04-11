@@ -11,6 +11,8 @@ import { Item } from "./types/databasetypes"
 
 type ItemSearch = {
 	profileName: string
+	class: string
+	kanai?: boolean
 	type: "player" | "follower"
 	items: Array<Item>
 }
@@ -27,6 +29,7 @@ const find = (search: string, profiles: Array<LocalProfile>) => {
 
 		found.push({
 			profileName: profile.name,
+			class: profile.class,
 			items,
 			type: "player"
 		})
@@ -39,8 +42,21 @@ const find = (search: string, profiles: Array<LocalProfile>) => {
 
 		found.push({
 			profileName: profile.name,
+			class: profile.follower.name,
 			items: followerItems,
 			type: "follower"
+		})
+
+		const kanaiItems = Object.values(profile.kanai)
+			.filter((value) => value && findInString(value?.name, search))
+			.filter((d) => d !== undefined) as Array<Item>
+
+		found.push({
+			profileName: profile.name,
+			class: profile.class,
+			items: kanaiItems,
+			type: "player",
+			kanai: true
 		})
 	}
 
@@ -62,23 +78,34 @@ const iterateAndPrintItems = (search: string, itemSearches: ItemSearch[]) => {
 
 				return {
 					profileName: profile.profileName,
-					item: colored
+					item: colored,
+					class: profile.class,
+					kanai: profile.kanai || false
 				}
 			})
-			.reduce((prev: Record<string, Array<string>>, curr: { profileName: string; item: string }) => {
+			.reduce((prev, curr) => {
 				if (!prev[curr.profileName]) {
-					prev[curr.profileName] = []
+					prev[curr.profileName] = {
+						class: profile.class,
+						items: [],
+						kanai: profile.kanai || false
+					}
 				}
 
-				prev[curr.profileName].push(curr.item)
-
+				prev[curr.profileName].items.push(curr.item)
 				return prev
-			}, {})
+			}, {} as Record<string, { items: Array<string>; class: string; kanai: boolean }>)
 
 		Object.keys(itemsByProfiles)
 			.sort()
 			.forEach((profileName) => {
-				console.log(`${profileName}: [${itemsByProfiles[profileName].join(", ")}]`)
+				const d = itemsByProfiles[profileName]
+				const cls = `(${colors.blue(d.class)})`
+				const kanai = d.kanai ? `(${colors.magenta("kanai")})` : ""
+				const clsKanai = `${cls} ${kanai}:`
+				const items = `[${d.items.join(", ")}]`
+
+				console.log(`${profileName} ${clsKanai} ${items}`)
 			})
 	})
 }
@@ -92,8 +119,6 @@ const prettyFind = (search: string, profiles: Array<LocalProfile>) => {
 	console.log(colors.green("Player:"))
 	const playerProfiles = result.filter((profile) => profile.type === "player")
 	iterateAndPrintItems(search, playerProfiles)
-
-	console.log()
 
 	console.log(colors.green("Follower:"))
 	const followerProfiles = result.filter((profile) => profile.type === "follower")
@@ -121,16 +146,16 @@ type Guide = {
 }
 
 const start = async () => {
-
 	const guidesPath = path.resolve(__dirname, "guides.json")
 	const guidesExist = await fs.pathExists(guidesPath)
 
-	if(!guidesExist) {
-
-		const example = [{
-			url: "https://maxroll.gg/guides/firebird-mirror-image-wizard-guide",
-			name: "Firebird Mirror Image"
-		}]
+	if (!guidesExist) {
+		const example = [
+			{
+				url: "https://maxroll.gg/guides/firebird-mirror-image-wizard-guide",
+				name: "Firebird Mirror Image"
+			}
+		]
 
 		console.log("Please create a guides.json file in the same directory as the program")
 		console.log("Example file:")
