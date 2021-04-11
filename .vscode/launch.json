@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+			"name": "index",
+			"type": "pwa-node",
+			"request": "launch",
+			"args": ["${workspaceFolder}/src/index.ts"],
+			"runtimeArgs": [
+				"-r",
+				"ts-node/register",
+				"-r",
+				"tsconfig-paths/register"
+			],
+			"cwd": "${workspaceFolder}",
+			"outputCapture": "std",
+			"resolveSourceMapLocations": [
+				"${workspaceFolder}/**",
+				"!**/node_modules/**"
+			],
+			"env": {
+				"TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json",
+				"TS_NODE_TRANSPILE_ONLY": "true",
+			}
+		},
+    ]
+}
