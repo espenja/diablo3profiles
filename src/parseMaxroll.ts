@@ -1,7 +1,10 @@
 import got from "got"
+import colors from "colors"
 import { JSDOM } from "jsdom"
 
 export const getMaxRollVariants = async (url: string) => {
+	console.log(colors.green(`Loading build from ${colors.reset(url)}`))
+
 	const page = await got(url)
 	const dom = new JSDOM(page.body)
 	const variants = dom.window.document.querySelectorAll(".advgb-tab-body-container") || []
@@ -17,7 +20,7 @@ export const getMaxRollVariants = async (url: string) => {
 		const setId = parseInt(build?.getAttribute("data-d3planner-set") as string)
 
 		if (!setName || !build || !buildId) {
-			throw new Error("Could not get info for set")
+			continue
 		}
 
 		setInfos.push({

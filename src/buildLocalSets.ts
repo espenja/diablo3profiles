@@ -14,7 +14,7 @@ type Kanai = {
 	jewelry?: Item
 }
 
-type LocalProfile = {
+export type LocalProfile = {
 	name: string
 	items: Array<Item>
 	skills: Array<Skill>
