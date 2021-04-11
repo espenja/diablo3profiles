@@ -1,3 +1,5 @@
+import { ClassName } from "./databasetypes"
+
 export interface Kanai {
 	weapon: string
 	armor: string
@@ -316,7 +318,7 @@ export interface Profile {
 	passives: string[]
 	kanai: Kanai
 	paragon: Paragon
-	class: string
+	class: ClassName
 	seasonal: number
 	gender: string
 	items: Items

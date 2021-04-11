@@ -1,7 +1,7 @@
 import got from "got"
-import { DiabloDatabase } from "../types/diabloDatabaseTypes"
+import { Database } from "../types/databasetypes"
 
-let database: DiabloDatabase
+let database: Database
 
 export const getDatabase = async () => {
 	if (database) {
@@ -9,7 +9,7 @@ export const getDatabase = async () => {
 	}
 
 	const data = (await got("https://maxroll.gg/d3planner/data")).body
-	database = JSON.parse(data) as DiabloDatabase
+	database = JSON.parse(data) as Database
 
 	return database
 }
