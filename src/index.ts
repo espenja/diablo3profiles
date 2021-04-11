@@ -101,8 +101,8 @@ const iterateAndPrintItems = (search: string, itemSearches: ItemSearch[]) => {
 			.forEach((profileName) => {
 				const d = itemsByProfiles[profileName]
 				const cls = `(${colors.blue(d.class)})`
-				const kanai = d.kanai ? `(${colors.magenta("kanai")})` : ""
-				const clsKanai = `${cls} ${kanai}:`
+				const kanai = d.kanai ? ` (${colors.magenta("kanai")})` : ""
+				const clsKanai = `${cls}${kanai}:`
 				const items = `[${d.items.join(", ")}]`
 
 				console.log(`${profileName} ${clsKanai} ${items}`)
@@ -120,6 +120,8 @@ const prettyFind = (search: string, profiles: Array<LocalProfile>) => {
 	const playerProfiles = result.filter((profile) => profile.type === "player")
 	iterateAndPrintItems(search, playerProfiles)
 
+	console.log()
+
 	console.log(colors.green("Follower:"))
 	const followerProfiles = result.filter((profile) => profile.type === "follower")
 	iterateAndPrintItems(search, followerProfiles)
@@ -135,7 +137,6 @@ const askUser = (profiles: LocalProfile[]) => {
 
 		prettyFind(result.search, profiles)
 		console.log("--------------------")
-		console.log()
 		askUser(profiles)
 	})
 }

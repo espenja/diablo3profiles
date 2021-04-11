@@ -3,7 +3,7 @@ import path from "path"
 import webpack from "webpack"
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin"
 import ForkTsCheckerPlugin from "fork-ts-checker-webpack-plugin"
-import TerserPlugin  from "terser-webpack-plugin"
+import TerserPlugin from "terser-webpack-plugin"
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer"
 
 const projectRoot = path.resolve(__dirname, "../")
@@ -30,9 +30,7 @@ export default async () => {
 
 		entry: [entry],
 
-		ignoreWarnings: [
-			/critical dependency: the request of a dependency is an expression/i
-		],
+		ignoreWarnings: [/critical dependency: the request of a dependency is an expression/i],
 
 		node: {
 			__dirname: false
@@ -58,10 +56,12 @@ export default async () => {
 			runtimeChunk: false,
 			minimize: true,
 			usedExports: true,
-			minimizer: [new TerserPlugin({
-				parallel: 4,
-				extractComments: true
-			})]
+			minimizer: [
+				new TerserPlugin({
+					parallel: 4,
+					extractComments: true
+				})
+			]
 		},
 
 		plugins: [

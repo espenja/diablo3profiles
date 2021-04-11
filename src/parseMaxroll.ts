@@ -1,12 +1,32 @@
+import path from "path"
+import fs from "fs-extra"
+
 import got from "got"
 import colors from "colors"
 import cheerio from "cheerio"
 
-export const getMaxRollVariants = async (url: string) => {
-	console.log(colors.green(`Loading build from ${colors.reset(url)}`))
+import { getConfig } from "./getConfig"
 
-	const page = await got(url)
-	const $ = cheerio.load(page.body)
+const getFromCacheOrUpdate = async (url: string) => {
+	const { cacheDir } = getConfig()
+
+	const buildName = `${url.substr(url.lastIndexOf("/"))}.html`
+	const cachePath = path.join(cacheDir, buildName)
+
+	if (await fs.pathExists(cachePath)) {
+		console.log(colors.green(`Loading Maxroll Guide from cache: ${colors.reset(url)}`))
+		return (await fs.readFile(cachePath)).toString()
+	}
+
+	console.log(colors.green(`Loading Maxroll Guide from web: ${colors.reset(url)}`))
+	const contents = (await got(url)).body
+	await fs.writeFile(cachePath, contents)
+	return contents
+}
+
+export const getMaxRollVariants = async (url: string) => {
+	const html = await getFromCacheOrUpdate(url)
+	const $ = cheerio.load(html)
 	const variants = $(".advgb-tab-body-container")
 	const setInfos = []
 
