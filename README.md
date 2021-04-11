@@ -1,6 +1,7 @@
 # diablo3profiles
 
-Console application letting you parse Max Roll Guides and get easy lookup of items you need for individual specs
+Console application letting you parse Max Roll Guides and get easy lookup of items you need for individual specs.
+This project was created because I was unsure of which items I could toss or not with the builds I was going for, and it was too time consuming looking up every guide for answers.
 
 # Building
 
