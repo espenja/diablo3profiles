@@ -14,13 +14,14 @@ type Kanai = {
 	jewelry?: Item
 }
 
-export type LocalProfile = {
+export type LocalBuildVariant = {
 	name: string
 	class: string
 	items: Array<Item>
 	skills: Array<Skill>
 	kanai: Kanai
 	follower?: Follower
+	statPriorities?: Record<string, Array<string>>
 }
 
 export const getItem = async (item: string): Promise<Item | undefined> => {
@@ -89,17 +90,18 @@ export const getKanai = async (profile: Profile): Promise<Kanai> => {
 	}
 }
 
-export const buildLocalSets = async (profiles: Array<Profile>, namePrefix: string) => {
-	const localProfiles: Array<LocalProfile> = []
+export const buildLocalVariants = async (profiles: Array<Profile>, namePrefix: string) => {
+	const localProfiles: Array<LocalBuildVariant> = []
 
 	for (const profile of profiles) {
-		const localProfile: LocalProfile = {
+		const localProfile: LocalBuildVariant = {
 			name: `${namePrefix} ${profile.name}`,
 			class: profile.class,
 			items: await getItems(profile.items),
 			kanai: await getKanai(profile),
 			skills: await getSkills(profile.class, profile.skills),
-			follower: await getFollower(profile)
+			follower: await getFollower(profile),
+			statPriorities: profile.statPriorities
 		}
 
 		localProfiles.push(localProfile)

@@ -330,6 +330,7 @@ export interface Profile {
 	values: Values
 	mainset: string
 	buildinfo: Buildinfo
+	statPriorities?: Record<string, Array<string>> //own
 }
 
 export interface Active2 {

@@ -3,8 +3,8 @@ import path from "path"
 import prompt from "prompt"
 import colors from "colors"
 
-import { buildLocalSets, LocalProfile } from "./buildLocalSets"
-import { getD3PlannerSets } from "./getD3PlannerSets"
+import { buildLocalVariants, LocalBuildVariant } from "./buildLocalVariants"
+import { getD3PlannerVariants as getD3PlannerVariants } from "./getD3PlannerVariant"
 import { getMaxRollVariants } from "./parseMaxroll"
 
 import { Item } from "./types/databasetypes"
@@ -15,13 +15,14 @@ type ItemSearch = {
 	kanai?: boolean
 	type: "player" | "follower"
 	items: Array<Item>
+	statPriorities?: Record<string, Array<string>>
 }
 
 const findInString = (str1: string, str2: string) => {
 	return str1.toLowerCase().includes(str2.toLowerCase())
 }
 
-const find = (search: string, profiles: Array<LocalProfile>) => {
+const find = (search: string, profiles: Array<LocalBuildVariant>) => {
 	const found: Array<ItemSearch> = []
 
 	for (const profile of profiles) {
@@ -31,7 +32,8 @@ const find = (search: string, profiles: Array<LocalProfile>) => {
 			profileName: profile.name,
 			class: profile.class,
 			items,
-			type: "player"
+			type: "player",
+			statPriorities: profile.statPriorities
 		})
 
 		const kanaiItems = Object.values(profile.kanai)
@@ -63,6 +65,18 @@ const find = (search: string, profiles: Array<LocalProfile>) => {
 	return found
 }
 
+const createStatPrioritiesString = (statPriorities: Record<string, Array<string>> | undefined, item: Item) => {
+	if (!statPriorities) {
+		return ""
+	}
+
+	if (!statPriorities[item.name]) {
+		return
+	}
+
+	return `(${colors.white(statPriorities[item.name].join(", "))})`
+}
+
 const iterateAndPrintItems = (search: string, itemSearches: ItemSearch[]) => {
 	itemSearches.forEach((profile) => {
 		const itemsByProfiles = profile.items
@@ -70,11 +84,18 @@ const iterateAndPrintItems = (search: string, itemSearches: ItemSearch[]) => {
 				const itemName = item.name
 				const reg = new RegExp(search, "i")
 				const f = itemName.match(reg)![0]
-				const colored = `${colors.green(
+				let colored = `${colors.green(
 					itemName.substr(0, itemName.indexOf(f)) +
 						colors.red(colors.bold(f)) +
 						colors.green(itemName.substr(itemName.indexOf(f) + f.length))
 				)}`
+
+				if (profile.items.length === 1) {
+					const statPrioritiesString = createStatPrioritiesString(profile.statPriorities, item)
+					if (statPrioritiesString) {
+						colored += ` ${statPrioritiesString}`
+					}
+				}
 
 				return {
 					profileName: profile.profileName,
@@ -110,7 +131,7 @@ const iterateAndPrintItems = (search: string, itemSearches: ItemSearch[]) => {
 	})
 }
 
-const prettyFind = (search: string, profiles: Array<LocalProfile>) => {
+const prettyFind = (search: string, profiles: Array<LocalBuildVariant>) => {
 	console.log(colors.green(`Searching for ${colors.white('"')}${colors.magenta(search)}${colors.white('"')}`))
 	console.log()
 
@@ -127,7 +148,7 @@ const prettyFind = (search: string, profiles: Array<LocalProfile>) => {
 	iterateAndPrintItems(search, followerProfiles)
 }
 
-const askUser = (profiles: LocalProfile[]) => {
+const askUser = (profiles: LocalBuildVariant[]) => {
 	console.log()
 	prompt.get(["search"], (err, result: any) => {
 		if (err) {
@@ -166,16 +187,16 @@ const start = async () => {
 
 	const guides = JSON.parse(fs.readFileSync(path.resolve(__dirname, "guides.json"), { encoding: "utf-8" })) as Guide[]
 
-	const localProfiles: LocalProfile[] = []
+	const localBuildVariants: LocalBuildVariant[] = []
 
 	for (const guide of guides) {
 		const variants = await getMaxRollVariants(guide.url)
-		const d3Sets = await getD3PlannerSets(variants)
-		const localSets = await buildLocalSets(d3Sets, guide.name)
-		localSets.forEach((d) => localProfiles.push(d))
+		const d3Variant = await getD3PlannerVariants(variants)
+		const localVariants = await buildLocalVariants(d3Variant, guide.name)
+		localVariants.forEach((d) => localBuildVariants.push(d))
 	}
 
-	askUser(localProfiles)
+	askUser(localBuildVariants)
 }
 
 start().catch((error) => {
