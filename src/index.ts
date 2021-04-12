@@ -34,6 +34,18 @@ const find = (search: string, profiles: Array<LocalProfile>) => {
 			type: "player"
 		})
 
+		const kanaiItems = Object.values(profile.kanai)
+			.filter((value) => value && findInString(value?.name, search))
+			.filter((d) => d !== undefined) as Array<Item>
+
+		found.push({
+			profileName: profile.name,
+			class: profile.class,
+			items: kanaiItems,
+			type: "player",
+			kanai: true
+		})
+
 		if (!profile.follower) {
 			continue
 		}
@@ -45,18 +57,6 @@ const find = (search: string, profiles: Array<LocalProfile>) => {
 			class: profile.follower.name,
 			items: followerItems,
 			type: "follower"
-		})
-
-		const kanaiItems = Object.values(profile.kanai)
-			.filter((value) => value && findInString(value?.name, search))
-			.filter((d) => d !== undefined) as Array<Item>
-
-		found.push({
-			profileName: profile.name,
-			class: profile.class,
-			items: kanaiItems,
-			type: "player",
-			kanai: true
 		})
 	}
 
