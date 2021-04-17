@@ -165,6 +165,7 @@ const askUser = (profiles: LocalBuildVariant[]) => {
 type Guide = {
 	url: string
 	name: string
+	ignoredVariants: string[]
 }
 
 const start = async () => {
@@ -190,7 +191,7 @@ const start = async () => {
 	const localBuildVariants: LocalBuildVariant[] = []
 
 	for (const guide of guides) {
-		const variants = await getMaxRollVariants(guide.url)
+		const variants = await getMaxRollVariants(guide.url, guide.ignoredVariants)
 		const d3Variant = await getD3PlannerVariants(variants)
 		const localVariants = await buildLocalVariants(d3Variant, guide.name)
 		localVariants.forEach((d) => localBuildVariants.push(d))

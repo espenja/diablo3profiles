@@ -1,15 +1,19 @@
 [
     {
         "url": "https://maxroll.gg/guides/firebird-mirror-image-wizard-guide",
-        "name": "Firebird Mirror Image"
+        "name": "Firebird Mirror Image",
+        "ignoredVariants": [
+            "gr solo speeds",
+            "gr group rgk"
+        ]
     },
     {
         "url": "https://maxroll.gg/guides/lod-twister-wizard-guide",
-        "name": "LOD Twister"
-    },
-    {
-        "url": "https://maxroll.gg/guides/firebird-flame-blades-wizard-guide",
-        "name": "Firebird Flame Blades"
+        "name": "LOD Twister",
+        "ignoredVariants": [
+            "gr solo speeds",
+            "gr group tash killer"
+        ]
     },
     {
         "url": "https://maxroll.gg/guides/vyr-chantodo-archon-wod-wizard-guide",

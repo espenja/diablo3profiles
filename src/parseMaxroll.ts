@@ -91,7 +91,7 @@ const getStatPriorities = async ($: cheerio.Root) => {
 	return itemStatPriorities
 }
 
-export const getMaxRollVariants = async (url: string) => {
+export const getMaxRollVariants = async (url: string, ignoredVariants: string[]) => {
 	const html = await getFromCacheOrUpdate(url)
 	const $ = cheerio.load(html)
 	const variants = $(".advgb-tab-body-container")
@@ -103,6 +103,11 @@ export const getMaxRollVariants = async (url: string) => {
 		}
 
 		const variantName = $(".advgb-tab-body-header", variant).text()
+
+		if (ignoredVariants?.map((d) => d.toLowerCase()).includes(variantName.toLowerCase())) {
+			continue
+		}
+
 		const build = $(".d3planner-build", variant)
 		const buildId = build.attr("data-d3planner-id")
 		const variantId = parseInt(build.attr("data-d3planner-set") as string)
