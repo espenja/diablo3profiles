@@ -1,22 +1,10 @@
 [
-    {
-        "url": "https://maxroll.gg/guides/firebird-mirror-image-wizard-guide",
-        "name": "Firebird Mirror Image",
-        "ignoredVariants": [
-            "gr solo speeds",
-            "gr group rgk"
-        ]
-    },
-    {
-        "url": "https://maxroll.gg/guides/lod-twister-wizard-guide",
-        "name": "LOD Twister",
-        "ignoredVariants": [
-            "gr solo speeds",
-            "gr group tash killer"
-        ]
-    },
-    {
-        "url": "https://maxroll.gg/guides/vyr-chantodo-archon-wod-wizard-guide",
-        "name": "Vyr Chantado Archon WOD"
-    }
+	{
+		"url": "https://maxroll.gg/d3/guides/typhon-hydra-wizard-guide",
+		"name": "Typhon Hydra Wizard"
+	},
+	{
+		"url": "https://maxroll.gg/d3/guides/tal-rasha-meteor-wizard-guide",
+		"name": "Tal Rasha Meteor Wizard"
+	}
 ]

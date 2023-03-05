@@ -1,364 +1,369 @@
-import { ClassName } from "./databasetypes"
+export interface D3Planner {
+	accessed: number
+	average_rating: number
+	category: string
+	class: string
+	data: D3PlannerProfiles
+	date: Date
+	folder: number
+	game: string
+	id: string
+	mainset: string
+	name: string
+	public: number
+	total_ratings: number
+	user: User
+}
+
+export interface User {
+	id: number
+	username: string
+}
+
+export interface D3PlannerProfiles {
+	profiles: Profile[]
+	curstat: string
+	class: string
+	mainset: string
+	active: D3PlannerProfilesActive
+	name: string
+	activeProfile: number
+}
+
+export interface D3PlannerProfilesActive {
+	hoarder: number[]
+	zei: Array<number[] | number>
+	stricken: Array<number[] | number>
+	leg_conventionofelements: number[]
+	leg_avariceband: Array<number[]>
+	leg_haloofkarini_p6: number[]
+	leg_squirtsnecklace: Array<number[]>
+	slowtime: number[]
+	hydra: Array<Array<number | string>>
+	blackhole: Array<number[] | number>
+	arcanedynamo: number[]
+	moreWarnings: boolean
+	limitStats: boolean
+	hideCrossClass: boolean
+	hideLegacy: boolean
+	showElites: boolean
+	targetBoss: boolean
+	targetType: string
+	teleport: number[]
+	leg_sliverofterror: Array<number[]>
+}
+
+export interface Profile {
+	name: string
+	skills: Array<string[]>
+	passives: string[]
+	kanai: Kanai
+	paragon: Paragon
+	class: string
+	seasonal: number
+	gender: string
+	items: Items
+	active: any[] | ActiveActive
+	statPriority: StatPriority[]
+	follower: null | string
+	followerItems: FollowerItems
+	followerSkills: Array<null | string>
+	mainset: string
+	buildinfo: Buildinfo
+	values: Values
+	statPriorities?: Record<string, Array<string>> // Custom
+}
+
+export interface ActiveActive {
+	buff1_bigbadvoodoo: Array<number | string>
+}
+
+export interface Buildinfo {
+	ratings: Ratings
+	text: string
+}
+
+export interface Ratings {
+	show: boolean
+}
+
+export interface FollowerItems {
+	feet?: ShouldersClass
+	legs?: Legs
+	waist?: ShouldersClass
+	torso?: Torso
+	head?: Head
+	shoulders?: ShouldersClass
+	hands?: WristsClass
+	neck?: Neck
+	wrists?: WristsClass
+	rightfinger?: Tfinger
+	leftfinger?: Tfinger
+	follower?: Follower
+	mainhand?: FollowerItemsMainhand
+}
+
+export interface ShouldersClass {
+	id: string
+	stats: { [key: string]: number[] }
+	ancient: boolean
+	empty?: number
+}
+
+export interface Follower {
+	id: string
+	stats: FollowerStats
+	empty?: number
+	ancient: boolean
+}
+
+export interface FollowerStats {
+	custom: any[]
+	dex?: number[]
+	int?: number[]
+	resall?: number[]
+	lph?: number[]
+	vit?: number[]
+}
+
+export interface WristsClass {
+	id: HandsID
+	stats: WristsStats
+	ancient: boolean
+	empty?: number
+}
+
+export enum HandsID {
+	UniqueBracer106_X1 = "Unique_Bracer_106_x1",
+	UniqueGloves103_X1 = "Unique_Gloves_103_x1"
+}
+
+export interface WristsStats {
+	dex?: number[]
+	lph?: number[]
+	chd?: number[]
+	basearmor: number[]
+	custom: any[]
+	int?: number[]
+	ias?: number[]
+	vit?: number[]
+	armor?: number[]
+}
+
+export interface Head {
+	id: string
+	stats: HeadStats
+	ancient: boolean
+	gems: Array<Array<number | string>>
+	empty?: number
+}
+
+export interface HeadStats {
+	expadd?: number[]
+	basearmor: number[]
+	dex?: number[]
+	sockets: number[]
+	int?: number[]
+	vit?: number[]
+	lph?: number[]
+}
+
+export interface Tfinger {
+	id: string
+	stats: { [key: string]: number[] }
+	ancient: boolean
+	empty?: number
+	gems: Array<Array<PurpleGem | number>>
+}
+
+export enum PurpleGem {
+	Emerald = "emerald",
+	Esoteric = "esoteric",
+	Mutilation = "mutilation"
+}
+
+export interface Legs {
+	id: LegsID
+	stats: LegsStats
+	ancient: boolean
+	empty: number
+	gems: Array<Array<FluffyGem | number>>
+}
+
+export enum FluffyGem {
+	Amethyst = "amethyst",
+	Diamond = "diamond",
+	Emerald = "emerald",
+	Topaz = "topaz"
+}
+
+export enum LegsID {
+	P66UniquePants010 = "P66_Unique_Pants_010",
+	P68UniqueChestSet03 = "P68_Unique_Chest_Set_03",
+	P68UniquePantsSet03 = "P68_Unique_Pants_Set_03"
+}
+
+export interface LegsStats {
+	basearmor: number[]
+	sockets: number[]
+	dex?: number[]
+	int?: number[]
+	vit?: number[]
+	armor?: number[]
+	caldesanns_int?: number[]
+	skill_wizard_hydra?: number[]
+}
+
+export interface FollowerItemsMainhand {
+	id: string
+	stats: { [key: string]: number[] }
+	ancient: boolean
+	empty: number
+	gems?: Array<Array<FluffyGem | number>>
+}
+
+export interface Neck {
+	id: string
+	stats: NeckStats
+	ancient: boolean
+	empty: number
+	gems: Array<Array<FluffyGem | number>>
+}
+
+export interface NeckStats {
+	cdr: number[]
+	custom: any[]
+	sockets: number[]
+	dex?: number[]
+	ias?: number[]
+	int?: number[]
+	life?: number[]
+}
+
+export interface Torso {
+	id: string
+	stats: { [key: string]: number[] }
+	ancient: boolean
+	gems: Array<Array<FluffyGem | number>>
+	empty: number
+}
+
+export interface Items {
+	head: Torso
+	shoulders: Offhand
+	neck: Leftfinger
+	torso: Legs
+	waist: ShouldersClass
+	hands: ItemsHands
+	wrists: ShouldersClass
+	legs: Legs
+	feet: PurpleFeet
+	leftfinger: Leftfinger
+	rightfinger: Rightfinger
+	mainhand: ItemsMainhand
+	offhand: Offhand
+}
+
+export interface PurpleFeet {
+	id: string
+	stats: FeetStats
+	ancient: boolean
+	empty: number
+}
+
+export interface FeetStats {
+	basearmor: number[]
+	int: number[]
+	vit: number[]
+	resall: number[]
+	armor: number[]
+	caldesanns_int: number[]
+}
+
+export interface ItemsHands {
+	id: string
+	stats: PurpleStats
+	ancient: boolean
+	empty: number
+}
+
+export interface PurpleStats {
+	basearmor: number[]
+	int: number[]
+	ias?: number[]
+	chd: number[]
+	chc: number[]
+	caldesanns_int: number[]
+	area?: number[]
+}
+
+export interface Leftfinger {
+	id: LeftfingerID
+	stats: { [key: string]: number[] }
+	ancient: boolean
+	gems: Array<Array<number | string>>
+	empty?: number
+}
+
+export enum LeftfingerID {
+	P61UniqueRing03 = "P61_Unique_Ring_03",
+	P66UniqueAmulet010 = "P66_Unique_Amulet_010",
+	UniqueRing108_X1 = "Unique_Ring_108_x1"
+}
+
+export interface ItemsMainhand {
+	id: string
+	stats: { [key: string]: number[] }
+	ancient: boolean
+	gems: Array<Array<PurpleGem | number>>
+	empty: number
+}
+
+export interface Offhand {
+	id: string
+	stats: { [key: string]: number[] }
+	ancient: boolean
+	empty: number
+}
+
+export interface Rightfinger {
+	id: string
+	stats: { [key: string]: number[] }
+	ancient: boolean
+	gems: Array<Array<number | string>>
+	empty: number
+}
 
 export interface Kanai {
 	weapon: string
 	armor: string
 	jewelry: string
+	extra?: string
 }
 
 export interface Paragon {
 	level: number
-	data: number[][]
-}
-
-export interface Stats {
-	int: number[]
-	sockets: number[]
-	basearmor: number[]
-	chc: number[]
-	vit: number[]
-	caldesanns_int: number[]
-	hitfear: number[]
-	ccr: number[]
-	apoc: number[]
-	maxap: number[]
-	custom: number[]
-}
-
-export interface Head {
-	id: string
-	stats: Stats
-	gems: any[][]
-	empty: number
-	ancient: boolean
-}
-
-export interface Stats2 {
-	int: number[]
-	sockets: number[]
-	basearmor: number[]
-	vit: number[]
-	caldesanns_int: number[]
-	life: number[]
-}
-
-export interface Torso {
-	id: string
-	stats: Stats2
-	gems: any[][]
-	ancient: boolean
-	empty: number
-}
-
-export interface Stats3 {
-	basearmor: number[]
-	int: number[]
-	vit: number[]
-	cdr: number[]
-	caldesanns_int: number[]
-	life: number[]
-	rcr: number[]
-}
-
-export interface Shoulders {
-	id: string
-	stats: Stats3
-	ancient: boolean
-	empty: number
-}
-
-export interface Stats4 {
-	int: number[]
-	chc: number[]
-	basearmor: number[]
-	chd: number[]
-	cdr: number[]
-	caldesanns_int: number[]
-	ias: number[]
-}
-
-export interface Hands {
-	id: string
-	stats: Stats4
-	empty: number
-	ancient: boolean
-}
-
-export interface Stats5 {
-	basearmor: number[]
-	int: number[]
-	chc: number[]
-	vit: number[]
-	dmgfir: number[]
-	caldesanns_int: number[]
-	custom: number[]
-	pickup: number[]
-	meleedef: number[]
-}
-
-export interface Wrists {
-	id: string
-	stats: Stats5
-	ancient: boolean
-	empty?: number
-}
-
-export interface Stats6 {
-	caldesanns_int: number[]
-	chd: number[]
-	gf: number[]
-	dmgfir: number[]
-	chc: number[]
-	sockets: number[]
-	custom: any[]
-}
-
-export interface Neck {
-	id: string
-	stats: Stats6
-	ancient: boolean
-	empty: number
-	gems: any[][]
-}
-
-export interface Stats7 {
-	basearmor: number[]
-	int: number[]
-	sockets: number[]
-	vit: number[]
-	armor: number[]
-	caldesanns_int: number[]
-}
-
-export interface Legs {
-	id: string
-	stats: Stats7
-	ancient: boolean
-	gems: any[][]
-	empty?: number
-}
-
-export interface Stats8 {
-	basearmor: number[]
-	int: number[]
-	vit: number[]
-	life: number[]
-	armor: number[]
-	resphy: number[]
-	caldesanns_int: number[]
-	ias: number[]
-	chd: number[]
-}
-
-export interface Waist {
-	id: string
-	stats: Stats8
-	ancient: boolean
-}
-
-export interface Stats9 {
-	int: number[]
-	vit: number[]
-	basearmor: number[]
-	armor: number[]
-	resall: number[]
-	caldesanns_int: number[]
-}
-
-export interface Feet {
-	id: string
-	stats: Stats9
-	ancient: boolean
-}
-
-export interface Stats10 {
-	dmgfir: number[]
-	wpnphy: number[]
-	chc: number[]
-	apoc: number[]
-	cdr: number[]
-	caldesanns_int: number[]
-	int: number[]
-	custom: number[]
-	maxap: number[]
-	rcr: number[]
-	edmg: number[]
-}
-
-export interface Offhand {
-	id: string
-	stats: Stats10
-	ancient: boolean
-	empty: number
-}
-
-export interface Stats11 {
-	sockets: number[]
-	wpncol: number[]
-	custom: number[]
-	damage: number[]
-	laek: number[]
-	edmg: number[]
-	cdr: number[]
-	caldesanns_int: number[]
-	wpnphy: number[]
-	int: number[]
-	hitfear: number[]
-	weaponias: number[]
-}
-
-export interface Mainhand {
-	id: string
-	stats: Stats11
-	ancient: boolean
-	gems: any[][]
-	empty: number
-}
-
-export interface Stats12 {
-	caldesanns_int: number[]
-	int: number[]
-	cdr: number[]
-	chc: number[]
-	chd: number[]
-	sockets: number[]
-	gf: number[]
-	custom: any[]
-	rcr: number[]
-	dura: any[]
-	ias: number[]
-}
-
-export interface Rightfinger {
-	id: string
-	stats: Stats12
-	ancient: boolean
-	empty: number
-	gems: any[][]
-}
-
-export interface Stats13 {
-	chc: number[]
-	sockets: number[]
-	custom: number[]
-	chd: number[]
-	wpnphy: number[]
-	caldesanns_int: number[]
-	hitfear: number[]
-	cdr: number[]
-	ias: number[]
-}
-
-export interface Leftfinger {
-	id: string
-	stats: Stats13
-	ancient: boolean
-	gems: any[][]
-	empty: number
-}
-
-export interface Items {
-	head: Head
-	torso: Torso
-	shoulders: Shoulders
-	hands: Hands
-	wrists: Wrists
-	neck: Neck
-	legs: Legs
-	waist: Waist
-	feet: Feet
-	offhand: Offhand
-	mainhand: Mainhand
-	rightfinger: Rightfinger
-	leftfinger: Leftfinger
-}
-
-export interface Active {
-	enchantress_focusedmind: number[]
-	buff0: string
-	buff1: string
-	buff1_Unique_Bracer_007_x1: any[]
-	buff1_toxin: number[]
-	buff1_warcry: any[]
-	buff1_threateningshout: any[]
-	buff1_inspiringpresence: number[]
-	buff1_ignorepain: any[]
-	buff0_companion: any[]
-	buff0_sentry: any[]
-	buff0_multishot: any[]
-	buff0_markedfordeath: any[]
-	buff0_iceblink: number[]
-	buff0_toxin: number[]
-	buff0_P69_Unique_Bow_102: any[]
+	data: Array<number[]>
 }
 
 export interface StatPriority {
-	stat: string
+	stat: Stat
 	options: any[]
 	id: number
 }
 
+export enum Stat {
+	Dps = "dps",
+	Sockets = "sockets",
+	Toughness = "toughness"
+}
+
 export interface Values {
 	damage: number
-	toughness: any
+	toughness: number
 	recovery: number
-	effdps: any
-	effdph: any
-	effedps: any
-	effedph: any
-}
-
-export interface Buildinfo {
-	text: string
-}
-
-export interface Profile {
-	name: string
-	skills: string[][]
-	passives: string[]
-	kanai: Kanai
-	paragon: Paragon
-	class: ClassName
-	seasonal: number
-	gender: string
-	items: Items
-	active: Active
-	statPriority: StatPriority[]
-	follower: string
-	followerItems: any
-	followerSkills: string[]
-	values: Values
-	mainset: string
-	buildinfo: Buildinfo
-	statPriorities?: Record<string, Array<string>> //own
-}
-
-export interface Active2 {
-	leg_conventionofelements: number[]
-	leg_squirtsnecklace: number[][]
-	gogok: any[]
-	teleport: number[]
-	blackhole: any[]
-	spectralblade: any[]
-	archon: any[]
-	elementalexposure: any[]
-	stricken: any[]
-	disintegrate: any[]
-	pain: number[][]
-	powerful: number[]
-	leg_orbofinfinitedepth_p6: number[][]
-	zei: any[]
-	showElites: boolean
-	targetBoss: boolean
-	frostnova: number[]
-	slowtime: number[]
-}
-
-export interface D3Build {
-	profiles: Profile[]
-	activeProfile: number
-	active: Active2
-	name: string
-	class: string
-	mainset: string
+	effdps: number
+	effdph: number
+	effedps: number
+	effedph: number
 }

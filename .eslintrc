@@ -1,29 +1,61 @@
 {
-	"parser": "@typescript-eslint/parser",
+	"root": true,
+	"ignorePatterns": ["node_modules/**/*", "dist/**/*"],
 	"env": {
 		"browser": true
 	},
+	"parser": "@typescript-eslint/parser",
 	"extends": [
 		"eslint:recommended",
 		"plugin:react/recommended",
-		"plugin:prettier/recommended",
+		"plugin:import/errors",
+		"plugin:import/warnings",
+		"plugin:import/typescript",
 		"plugin:@typescript-eslint/eslint-recommended",
-		"plugin:@typescript-eslint/recommended"
+		"plugin:@typescript-eslint/recommended",
+		"plugin:prettier/recommended"
 	],
+	"plugins": ["prettier", "@typescript-eslint", "import", "sort-keys-fix"],
 	"settings": {
+		"import/parsers": {
+			"@typescript-eslint/parser": [".ts", ".tsx"]
+		},
 		"react": {
 			"version": "detect"
 		}
 	},
-	"plugins": ["prettier", "@typescript-eslint"],
 	"rules": {
 		"no-var": "error",
 		"no-extra-semi": "error",
 		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/member-delimiter-style": "off",
 		"@typescript-eslint/interface-name-prefix": "off",
 		"@typescript-eslint/no-non-null-assertion": "off",
-		"react/prop-types": "off"
+		"react/jsx-uses-react": "warn",
+		"react/prop-types": "off",
+		"import/default": "off",
+		"import/no-named-as-default-member": "off",
+		"import/no-named-as-default": "off",
+		"import/no-unresolved": "off",
+		"import/order": [
+			"warn",
+			{
+				"groups": ["builtin", "external", "sibling", ["index", "parent", "internal"]],
+				"alphabetize": { "order": "asc", "caseInsensitive": false },
+				"newlines-between": "always"
+			}
+		],
+		"sort-imports": [
+			"warn",
+			{
+				"allowSeparatedGroups": false,
+				"ignoreCase": true,
+				"ignoreDeclarationSort": true,
+				"ignoreMemberSort": false
+			}
+		]
+		// "sort-keys-fix/sort-keys-fix": "warn" // Sorts all object keys
 	}
 }
